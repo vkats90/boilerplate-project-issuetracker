@@ -57,4 +57,14 @@ async function updateIssue(id, update) {
   }
 }
 
-module.exports = { addIssue, listIssues, findIssueById, updateIssue };
+async function deleteById(id) {
+  await IssueModel.deleteOne({ _id: id });
+}
+
+module.exports = {
+  addIssue,
+  listIssues,
+  findIssueById,
+  updateIssue,
+  deleteById,
+};

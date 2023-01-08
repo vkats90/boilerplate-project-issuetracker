@@ -4,6 +4,7 @@ const {
   listIssues,
   findIssueById,
   updateIssue,
+  deleteById,
 } = require("../database/utilFuncs.js");
 const dbConnect = require("../database/dbconnect");
 
@@ -48,7 +49,14 @@ module.exports = async function (app) {
       }
     })
 
-    .delete(function (req, res) {
+    .delete(async function (req, res) {
       let project = req.params.project;
+
+      if (!(await findIssueById(req.body._id))) {
+        res.json({ error: "could not delete", _id: req.body._id });
+      } else {
+        await deleteById(req.body._id);
+        res.json({ result: "successfully deleted", _id: req.body._id });
+      }
     });
 };
