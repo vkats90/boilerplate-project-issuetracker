@@ -16,7 +16,12 @@ module.exports = async function (app) {
       let project = req.params.project;
       let arr = await listIssues(project);
       for (let i in req.query) {
-        arr = arr.filter((x) => x[i] == req.query[i]);
+        arr = arr.filter((x) => {
+          if (i == "updated_on" || i == "created_on") {
+            return x[i].getTime() === new Date(req.query[i]).getTime();
+          } else if (i == "open") return x[i] == stringToBoolean(req.query[i]);
+          else return x[i] == req.query[i];
+        });
       }
       res.send(arr);
     })
@@ -56,7 +61,6 @@ module.exports = async function (app) {
           status_text: req.body.status_text || undefined,
           open: req.body.open ? false : true,
         };
-        console.log(update);
         if (
           JSON.stringify(update) ==
           JSON.stringify({
@@ -68,14 +72,11 @@ module.exports = async function (app) {
             open: true,
           })
         ) {
-          console.log("empty");
           res.json({ error: "no update field(s) sent", _id: req.body._id });
         } else if (!(await findIssueById(req.body._id))) {
-          console.log("failed");
           res.json({ error: "could not update", _id: req.body._id });
         } else {
           let result = await updateIssue(req.body._id, update);
-          console.log("success");
           res.json({ result: "successfully updated", _id: req.body._id });
         }
       }
@@ -94,4 +95,23 @@ module.exports = async function (app) {
         }
       }
     });
+};
+
+const stringToBoolean = (stringValue) => {
+  switch (stringValue?.toLowerCase()?.trim()) {
+    case "true":
+    case "yes":
+    case "1":
+      return true;
+
+    case "false":
+    case "no":
+    case "0":
+    case null:
+    case undefined:
+      return false;
+
+    default:
+      return JSON.parse(stringValue);
+  }
 };
