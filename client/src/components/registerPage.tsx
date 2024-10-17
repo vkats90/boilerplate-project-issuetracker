@@ -1,14 +1,14 @@
 import { FormEventHandler } from 'react'
-import { login } from '../services/users'
+import { register } from '../services/users'
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const handleSubmit: FormEventHandler = (e: any) => {
     e.preventDefault()
-    login(e.currentTarget.elements)
+    register(e.currentTarget.elements)
   }
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-      <h1>Login</h1>
+      <h1>Register</h1>
       <span>
         Username:
         <input type="text" name="username" id="username" />
@@ -17,9 +17,9 @@ const LoginPage = () => {
         Password:
         <input type="password" name="password" id="password" />
       </span>
-      <button type="submit">Login</button>
+      <button type="submit">Register</button>
     </form>
   )
 }
 
-export default LoginPage
+export default RegisterPage

@@ -10,8 +10,16 @@ interface IssueType {
   status_text: string
 }
 
+let token = ''
+
+export const setToken = (responseToken: string) => {
+  token = 'bearer ' + responseToken
+}
+
 export const getIssues = async () => {
-  const issues = await axios.get('http://localhost:3000/api/issues/apitest/')
+  const issues = await axios.get('http://localhost:3000/api/issues/apitest/', {
+    headers: { Authorization: token },
+  })
 
   return issues.data ? (issues.data as IssueType) : []
 }

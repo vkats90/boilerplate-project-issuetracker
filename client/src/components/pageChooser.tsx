@@ -18,6 +18,7 @@ const PageChooser = ({
 }) => {
   const buttons = {
     login: <button onClick={() => setDisplay('login')}>Login</button>,
+    register: <button onClick={() => setDisplay('register')}>Register</button>,
     issues: <button onClick={() => setDisplay('issues')}>Issues</button>,
     addIssue: <button onClick={() => setDisplay('addIssue')}>Add Issue</button>,
     editIssue: <button onClick={() => setDisplay('editIssue')}>Edit Issue</button>,
