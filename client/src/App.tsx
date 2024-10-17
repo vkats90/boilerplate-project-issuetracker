@@ -1,21 +1,19 @@
 import './App.css'
-
-const exampleReturn = [
-  {
-    _id: '5871dda29faedc3491ff93bb',
-    issue_title: 'Fix error in posting data',
-    issue_text: 'When we post data it has an error.',
-    created_on: '2017-01-08T06:35:14.240Z',
-    updated_on: '2017-01-08T06:35:14.240Z',
-    created_by: 'Joe',
-    assigned_to: 'Joe',
-    open: true,
-    status_text: 'In QA',
-  },
-]
+import { useState } from 'react'
+import IssuesViewer from './components/viewissues'
+import LoginPage from './components/loginPage'
+import PageChooser from './components/pageChooser'
 
 function App() {
-  return <></>
+  const [display, setDisplay] = useState('issues')
+
+  return (
+    <div>
+      <PageChooser display={display} setDisplay={setDisplay} />
+      {display == 'issues' && <IssuesViewer />}
+      {display == 'login' && <LoginPage />}
+    </div>
+  )
 }
 
 export default App
